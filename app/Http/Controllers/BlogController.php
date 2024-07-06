@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Support\Facades\File;
 
 class BlogController extends Controller
 {
@@ -12,8 +13,11 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $data = Blog::all()->toArray();
-        return view("blogs")->with("data", $data);
+        $data = Blog::all();
+        // $session = session()->all();
+        // echo "<pre>";
+        // print_r($session);
+        return view("blogs", compact('data'));
     }
 
     /**
@@ -52,7 +56,7 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        $blog = Blog::find($id)->toArray();
+        $blog = Blog::find($id);
         return view('viewblog')->with('blog', $blog);
     }
 
@@ -76,6 +80,7 @@ class BlogController extends Controller
         $blog->description = $request->description;
 
         if ($request->hasFile('image')) {
+            File::delete("uploads/demo/" . $blog->image);
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time().'.'.$extension;
@@ -83,7 +88,7 @@ class BlogController extends Controller
             $blog->image = $filename;
         }
         $blog->save();
-        return view('Home');
+        return redirect('/blog');
     }
 
     /**

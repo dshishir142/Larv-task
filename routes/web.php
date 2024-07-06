@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\indexController;
+use App\Http\Controllers\IndexController as ControllersIndexController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Demo;
@@ -19,17 +21,28 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-Route::get('/blog', [BlogController::class, 'index'])->name('Blog.index');
-Route::post('/blog/store', [BlogController::class, 'store']);
-Route::get('/blog/view/{id}', [BlogController::class, 'show']);
+
+// Route::resource("blog", BlogController::class);
 Route::get('/delete/{id}', [BlogController::class, 'destroy']);
 Route::get('/edit/{id}', [BlogController::class,'edit']);
-Route::post('/blog/edit/{id}', [BlogController::class,'update']);
 
 Route::get('/', [BlogController::class,'index'])->name('home'); 
 
-Route::get('/blog/add', function () {
+
+
+
+Route::group(['prefix'=> '/blog'], function () {
+    Route::get('/', [BlogController::class, 'index'])->name('Blog.index');
+
+    Route::post('/store', [BlogController::class, 'store']);
+
+    Route::get('/view/{id}', [BlogController::class, 'show']);
+
+    Route::get('/add', function () {
     return view('addblog');
+    });
+
+    Route::post('/edit/{id}', [BlogController::class,'update']);
 });
 // Route::get('/demo/{name}/{id?}', function($name, $id = null) {
 //     $data = compact('name','id');
@@ -48,3 +61,14 @@ Route::get('/blog/add', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/test', [indexController::class,'index']);
+
+Route::get('/testAdd', [indexController::class,'testAdd']);
+
+Route::get('/onetomany', [IndexController::class,'testOneToMany']);
+
+Route::get('/manytomany', [IndexController::class,'manyToMany']);
+
+Route::get('/roletouser', [IndexController::class,'addRoleToUser']);
+Route::get('/roletouser/remove', [IndexController::class,'removeRoleToUser']);

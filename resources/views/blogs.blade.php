@@ -18,7 +18,7 @@
     </a>
     @else     
     <div class="container-fluid">
-        <h3>{{ $item['title'] }}</h3>
+        <h3>{{ $item->title }}</h3>
         <img src="{{ asset('uploads/demo/' . $item['image']) }}" width="100" height="auto">
     </div>
 
