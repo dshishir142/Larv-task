@@ -62,7 +62,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/test', [indexController::class,'index']);
+Route::get('/test', [indexController::class,'index'])->middleware('guard');
 
 Route::get('/testAdd', [indexController::class,'testAdd']);
 
