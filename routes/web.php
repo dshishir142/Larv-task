@@ -4,6 +4,9 @@ use App\Http\Controllers\DemoController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\IndexController as ControllersIndexController;
+use App\Models\comment;
+use App\Models\photo;
+use App\Models\video;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Demo;
@@ -72,3 +75,10 @@ Route::get('/manytomany', [IndexController::class,'manyToMany']);
 
 Route::get('/roletouser', [IndexController::class,'addRoleToUser']);
 Route::get('/roletouser/remove', [IndexController::class,'removeRoleToUser']);
+
+
+Route::get('/testmorph', function(){
+
+    $data = comment::with('commentable')->get();
+    return $data;
+});
